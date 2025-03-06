@@ -1,0 +1,8 @@
+# Ignore Xcode files
+*.xcworkspace/
+*.xcuserdata/
+*.xcodeproj/project.xcworkspace/
+*.xcodeproj/xcuserdata/
+*.xcodeproj/xcshareddata/
+.DS_Store
+
