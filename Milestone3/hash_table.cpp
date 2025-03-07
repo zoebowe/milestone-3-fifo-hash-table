@@ -9,7 +9,7 @@
 */
 
 
-//TODO: This file contains stub implementations. Functions need to be properly implemented.
+//TODO: Kirill KoukarineL - Implement your code for the required methods for hash_table.cpp
 //NOTE for Kirill Koukarine: You can implement the functions and modify this code however you like!
 
 #include <iostream> // 03/06/25 - Added by Zoe Elias for std::cout (Kirill, remove if unnecessary)
