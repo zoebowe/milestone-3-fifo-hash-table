@@ -6,10 +6,18 @@
 * 10/17/24 - Modified by jhui
 * 01/11/25 - Modified by hhui; 1) added calculateHashCode, 2) modified methods to include hash table size parameter
 * 01/16/2025 - Modified by hhui; created separate node structure file
+* ========================================================
+* 03/14/2025 - TEMPORARY EDIT BY ZOE ELIAS TO ENABLE COMPILATION
+* ========================================================
+* WARNING: This edit was made to fix a missing std::cout reference.
+* NOTE: If the project updates, consider removing or adjusting this.
 */
 
 #ifndef _HASH_TABLE
 #define _HASH_TABLE
+
+// TODO: REMOVE OR REVISIT THIS EDIT ONCE COMPILATION ISSUE IS FIXED
+#include <iostream>  // ADDED TO FIX COMPILATION
 
 #include "hash_node.h"
 
