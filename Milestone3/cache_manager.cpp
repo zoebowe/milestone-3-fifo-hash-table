@@ -40,52 +40,41 @@ bool CacheManager::isEmpty() {
 }
 
 bool CacheManager::add(int curKey, DllNode* myNode) {
-    if (hashTable->getNumberOfItems() >= maxCacheSize) {
-        std::cout << "Cache is full! Cannot add key: " << curKey << std::endl;
-        return false; // Cache is full
+    // Handle Cache Full Condition (FIFO Eviction)
+    if (hashTable->getNumberOfItems() >= maxCacheSize) {  
+        if (doublyLinkedList->tail) {  
+            int oldestKey = doublyLinkedList->tail->key;
+
+            // Remove from both hash table and doubly linked list
+            hashTable->remove(oldestKey);
+            doublyLinkedList->remove(oldestKey);
+        }
     }
 
+    // Prevent duplicate entries
     if (hashTable->contains(curKey)) {
-        std::cout << "Key " << curKey << " already exists in the cache." << std::endl;
-        return false; // Prevent duplicate entries
+        return false;
     }
 
     // Insert into HashTable
-    HashNode* newHashNode = new HashNode(curKey, myNode); // Wrap DllNode inside HashNode
+    HashNode* newHashNode = new HashNode(curKey, myNode);
     hashTable->add(curKey, newHashNode);
-
-    // Check size before inserting into the doubly linked list
-    int beforeSize = doublyLinkedList->getSize();
 
     // Insert into Doubly Linked List (FIFO order)
     doublyLinkedList->insertAtHead(curKey, myNode);
 
-    // Check size after insertion
-    int afterSize = doublyLinkedList->getSize();
-
-    // Confirm insertion success
-    if (afterSize > beforeSize) {
-        std::cout << "Added key to cacheManager: " << curKey << std::endl;
-        return true;
-    } else {
-        std::cout << "Failed to add key to cacheManager: " << curKey << std::endl;
-        return false;
-    }
+    return true;
 }
 
 bool CacheManager::remove(int curKey) {
     if (!hashTable->contains(curKey)) {
-        std::cout << "Key " << curKey << " not found in cache." << std::endl;
         return false; // Key not found
     }
 
-    // Remove from HashTable
+    // Remove from HashTable and Doubly Linked List
     hashTable->remove(curKey);
-
-    // Remove from Doubly Linked List
     doublyLinkedList->remove(curKey);
 
-    std::cout << "Removed key: " << curKey << " from cacheManager" << std::endl;
     return true;
 }
 
