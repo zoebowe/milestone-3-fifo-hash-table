@@ -8,8 +8,6 @@
 #include "cache_manager.h"
 #include <iostream>
 
-CacheManager::CacheManager(int myMaxCacheSize, int myHashTableSize) {}
-
 HashTable* CacheManager::getTable() { return nullptr; }
 
 DoublyLinkedList* CacheManager::getList() { return nullptr; }
