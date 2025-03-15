@@ -1,3 +1,10 @@
+/**
+ * @author - Zoe Elias
+ * @file hash_table.cpp - This file implements the methods declared in hash_table.h.
+ * 03/14/2025 - Z. Elias created the file and added initial comments.
+ *
+ */
+
 #include "hash_table.h"
 #include <iostream>
 

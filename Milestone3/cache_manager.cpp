@@ -1,3 +1,10 @@
+/**
+ * @author - Zoe Elias
+ * @file cache_manager.cpp - This file implements the methods declared in cache_manager.h.
+ * 03/14/2025 - Z. Elias created the file and added initial comments.
+ *
+ */
+
 #include "cache_manager.h"
 #include <iostream>
 

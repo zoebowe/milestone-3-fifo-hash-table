@@ -1,3 +1,10 @@
+/**
+ * @author - Zoe Elias
+ * @file doubly_linked_list.cpp - This file implements the methods declared in doubly_linked_list.h.
+ * 03/14/2025 - Z. Elias created the file and added initial comments.
+ *
+ */
+
 #include "doubly_linked_list.h"
 #include <iostream>
 
