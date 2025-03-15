@@ -9,33 +9,41 @@
 #include "cache_manager.h"
 
 // remove all entries from the CacheManager
-cache_manager::clear(int myKeyValue, DllNode* myFifoNode) {
-	clear(myFifoNode.next.key, myFifoNode.next);
-	remove(myKeyValue);
+void CacheManager::clear() {
+	DllNode* currentNode = doublyLinkedList->head;
+	DllNode* nextNode = currentNode->next;
+	do {
+		remove(currentNode->key);
+		currentNode = nextNode;
+		nextNode = currentNode->next;
+	} while (nextNode);
+	if (currentNode) {
+		remove(currentNode->key);
+	}
 }
 
 //retrieve item from the CacheManager, and moves node to the head of doublyLinkedList
-cache_manager::getItem(int curKey) {
+DllNode* CacheManager::getItem(int curKey) {
 	doublyLinkedList->moveNodeToHead(curKey);
 	return getItem(curKey);
 }
 
 // retrieve max size of cache from the CacheManager
-cache_manager::getMaxCacheSize(){
+int CacheManager::getMaxCacheSize(){
 	return maxCacheSize;
 }
 
 //check if a node with key exists in the table, and moves node to the head of doublyLinkedList, if true
-cache_manager::contains(int curKey){
+bool CacheManager::contains(int curKey){
 	if(hashTable->contains(curKey)){
-		doublyLinkedList->moveNodeToHead(curkey);
+		doublyLinkedList->moveNodeToHead(curKey);
 		return true;
 	}
 	else return false;
 }
 
 //print out the cache information
-cache_manager::printCache(){
+void CacheManager::printCache(){
 	hashTable->printTable();
 	doublyLinkedList->printList();
 }
