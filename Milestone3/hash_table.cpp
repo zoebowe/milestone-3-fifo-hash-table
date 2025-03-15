@@ -8,10 +8,6 @@
 #include "hash_table.h"
 #include <iostream>
 
-HashTable::HashTable() {}
-
-HashTable::HashTable(int hashTableSize) {}
-
 HashNode** HashTable::getTable() { return nullptr; }
 
 int HashTable::getSize() { return 0; }
