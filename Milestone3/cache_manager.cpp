@@ -42,7 +42,7 @@ bool CacheManager::contains(int curKey){
 	else return false;
 }
 
-//print out the cache information
+//print out the cache information using old print statements
 void CacheManager::printCache(){
 	hashTable->printTable();
 	doublyLinkedList->printList();
