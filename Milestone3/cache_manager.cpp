@@ -9,36 +9,39 @@
  *              - add()
  *              - remove()
  * 
- * NOTE: The following methods will be implemented by Kirill Koukarine in the feature/kirill branch:
- *       - clear()
- *       - getItem()
- *       - getMaxCacheSize()
- *       - contains()
- *       - printCache()
- * 
- * These will be merged into the main branch once both implementations are complete.
+ * 03/15/2025 - Kirill Koukarine implemented the following methods:
+ *              - clear()
+ *              - getItem()
+ *              - getMaxCacheSize()
+ *              - contains()
+ *              - printCache()
  */
 
 #include "cache_manager.h"
 #include <iostream>
 
+// Returns a pointer to the hash table used for cache storage.
 HashTable* CacheManager::getTable() { 
     return hashTable; 
 }
 
+// Returns a pointer to the doubly linked list used for FIFO cache management.
 DoublyLinkedList* CacheManager::getList() { 
     return doublyLinkedList; 
 }
 
+// Retrieves the current number of items in the cache.
 int CacheManager::getSize() { 
     int size = hashTable->getNumberOfItems();
     return size;
 }
 
+// Checks if the cache is empty.
 bool CacheManager::isEmpty() { 
     return hashTable->getNumberOfItems() == 0; 
 }
 
+// Adds a new key-value pair to the cache, evicting the oldest entry if necessary.
 bool CacheManager::add(int curKey, DllNode* myNode) {
     // Handle Cache Full Condition (FIFO Eviction)
     if (hashTable->getNumberOfItems() >= maxCacheSize) {  
@@ -66,6 +69,7 @@ bool CacheManager::add(int curKey, DllNode* myNode) {
     return true;
 }
 
+// Removes a key-value pair from the cache if it exists.
 bool CacheManager::remove(int curKey) {
     if (!hashTable->contains(curKey)) {
         return false; // Key not found
