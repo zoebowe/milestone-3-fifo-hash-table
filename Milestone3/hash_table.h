@@ -21,13 +21,15 @@
 
 #include "hash_node.h"
 
+#include <fstream>
+std::ofstream& getOutFile();
+
 // Define a class for the hash table 
 class HashTable {
 private:
 	HashNode** table;
 	int numberOfItems;
 	int numberOfBuckets;
-
 public:
 	// Default constructor
 	HashTable();
