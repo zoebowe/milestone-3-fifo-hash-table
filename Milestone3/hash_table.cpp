@@ -9,6 +9,7 @@
 #include "hash_node.h"
 #include "hash_table.h"
 #include <iostream>
+#include <sstream>
 
 	/**
 	*
@@ -181,20 +182,43 @@
 	* Method to print out the contents of table
 	*/
 	void HashTable::printTable() {
+		std::ofstream& outFile = getOutFile();
 		int size = getSize();
+		bool empties = false;
 		for (int i = 0; i < size; i++) {
-			if (!table[i]) continue;
-			std::cout << "index " << i << ": ";
+			if (!table[i]) {
+				if (!empties) {
+					std::cout << "\nEmpty:";
+					outFile << "\nEmpty:";
+					empties = true;
+				}
+				std::cout << i << ", ";
+				outFile << i << ", ";
+
+				continue;
+			}
+			else {
+				empties = false;
+				std::cout << "\n";
+				outFile << "\n";
+			}
+			std::cout << "\nindex: ";
+			outFile << "\nindex: ";
 			HashNode* myNode = table[i];
 			while (myNode) {
-				std::cout << "[Account: " << myNode->fullName << 
+				/*
+				std::cout << "[Account: " << myNode->getFifoNode()->fullName <<
 					", address: " << myNode->address <<
 					", city: " << myNode->city <<
 					", state: " << myNode->state <<
 					", zip: " << myNode->zip <<
 					"] ";
+				*/
+				std::cout << myNode->key << ", ";
+				outFile << myNode->key << ", ";
 				myNode = myNode->next;
 			}
 			std::cout << "\n";
+			outFile << "\n";
 		}
 	}
