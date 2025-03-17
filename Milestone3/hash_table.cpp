@@ -1,85 +1,200 @@
 /**
- * @author - Zoe Elias
- * @file hash_table.cpp - This file implements the methods declared in hash_table.h.
- * 03/14/2025 - Z. Elias created the file and added initial comments.
- *
- * NOTE: The following methods will be implemented by Kirill Koukarine in the feature/kirill branch:
- *       - getTable()
- *       - getSize()
- *       - calculateHashCode()
- *       - isEmpty()
- *       - getNumberOfItems()
- *       - add()
- *       - remove()
- *       - clear()
- *       - getItem()
- *       - contains()
- *       - printTable()
- */
+*
+* hash_table.cpp : This is the cpp file for HashTable which defines hash_table.h functions
+*
+* 3/16/25 created by Kirill
+*/
 
+
+#include "hash_node.h"
 #include "hash_table.h"
 #include <iostream>
 
-HashNode** HashTable::getTable() { 
-    // TODO: Implement method to return the actual hash table structure
-    // Kirill Koukarine will implement this in feature/kirill branch
-    return nullptr; 
-}
+	/**
+	*
+	* getTable
+	*
+	* Method to return the hash table
+	*/
+	HashNode** HashTable::getTable(){
+		return table;
+    }
 
-int HashTable::getSize() { 
-    // TODO: Implement method to return the number of buckets in the table
-    // Kirill Koukarine will implement this in feature/kirill branch
-    return 0; 
-}
+	/**
+	*
+	* getSize
+	*
+	* Method to return the size of the hash table
+	*/
+	int HashTable::getSize() {
+		return numberOfBuckets;
+	}
 
-int HashTable::calculateHashCode(int currentKey) { 
-    // TODO: Implement hash function to determine the bucket index for a given key
-    // Kirill Koukarine will implement this in feature/kirill branch
-    return 0; 
-}
+	/**
+	*
+	* calculateHashCode
+	*
+	* Method to calculate the hashCode
+	*/
+	int HashTable::calculateHashCode(int currentKey) {
+		return currentKey % getSize();
+	}
 
-bool HashTable::isEmpty() { 
-    // TODO: Implement method to check if the hash table is empty
-    // Kirill Koukarine will implement this in feature/kirill branch
-    return true; 
-}
+	/**
+	*
+	* isEmpty
+	*
+	* Method to check if HashTable is empty
+	*/
+	bool HashTable::isEmpty() {
+		int size = getSize();
+		for (int i = 0; i < size; i++) {
+			if (table[i]) return false;
+		}
+		return true;
+	}
 
-int HashTable::getNumberOfItems() { 
-    // TODO: Implement method to return the number of stored elements
-    // Kirill Koukarine will implement this in feature/kirill branch
-    return 0; 
-}
+	/**
+	*
+	* getNumberOfItems
+	*
+	* Method to return number of items in the hash table
+	*/
+	int HashTable::getNumberOfItems() {
+		return numberOfItems;
+	}
 
-bool HashTable::add(int curKey, HashNode* myNode) { 
-    // TODO: Implement method to add a key-value pair to the hash table
-    // Kirill Koukarine will implement this in feature/kirill branch
-    return true; 
-}
+	/**
+	*
+	* add
+	*
+	* Method to add a node to the hash table
+	*/
+	bool HashTable::add(int curKey, HashNode* myNode) {
+		int hash = calculateHashCode(curKey);
+		HashNode* prevNode = table[hash];
+		if (!table[hash]) {
+			table[hash] = myNode;
+		}
+		else {
+			while (prevNode->next) {
+				prevNode = prevNode->next;
+			}
 
-bool HashTable::remove(int curKey) { 
-    // TODO: Implement method to remove a key-value pair from the hash table
-    // Kirill Koukarine will implement this in feature/kirill branch
-    return true; 
-}
 
-void HashTable::clear() { 
-    // TODO: Implement method to clear all entries in the hash table
-    // Kirill Koukarine will implement this in feature/kirill branch
-}
+			prevNode->next = myNode;
+			myNode->prev = prevNode;
+		}
 
-HashNode* HashTable::getItem(int curKey) { 
-    // TODO: Implement method to retrieve an item from the hash table
-    // Kirill Koukarine will implement this in feature/kirill branch
-    return nullptr; 
-}
+		numberOfItems++;
+		return true;
+	}
 
-bool HashTable::contains(int curKey) { 
-    // TODO: Implement method to check if a key exists in the hash table
-    // Kirill Koukarine will implement this in feature/kirill branch
-    return false; 
-}
+	/**
+	*
+	* remove
+	*
+	* Method to remove node with curKey
+	*/
+	bool HashTable::remove(int curKey) {
+		int hash = calculateHashCode(curKey);
+		if (!table[hash]) return false;
+		HashNode* myNode = table[hash];
+		while (myNode) {
+			if (myNode->key == curKey) {
+				break;
+			}
 
-void HashTable::printTable() { 
-    // TODO: Implement method to print the contents of the hash table
-    // Kirill Koukarine will implement this in feature/kirill branch
-}
+			myNode = myNode->next;
+		} 
+
+		if (!myNode) return false;
+
+		//   deletion portion
+
+		//replace head
+		if (myNode->prev) {
+			myNode->prev->next = myNode->next;
+		} else {
+			table[hash] = myNode->next;
+		}
+
+		//shift linked list
+		if (myNode->next) {
+			myNode->next->prev = myNode->prev;
+		}
+
+		delete myNode;
+
+		numberOfItems--;
+		return true;
+	}
+
+	/**
+	*
+	* clear
+	*
+	* Method to remove all entries from the table
+	*/
+	void HashTable::clear() {
+		int size = getSize();
+		for (int i = 0; i < size; i++) {
+			while (table[i]) remove(table[i]->key);
+		}
+		numberOfItems = 0;
+	}
+
+	/**
+	*
+	* getItem
+	*
+	* Method to retrieve item from the hash table
+	*/
+	HashNode* HashTable::getItem(int curKey) {
+		int hash = calculateHashCode(curKey);
+		HashNode* myNode = table[hash];
+		while (myNode) {
+			if (myNode->key == curKey) {
+				return myNode;
+			}
+
+			myNode = myNode->next;
+		}
+
+		return nullptr;
+	}
+
+	/**
+	*
+	* contains
+	*
+	* Method to check if a node with key exists in the table
+	*/
+	bool HashTable::contains(int curKey) {
+		return getItem(curKey) > 0;
+	}
+
+	/**
+	*
+	* printTable
+	*
+	* Method to print out the contents of table
+	*/
+	void HashTable::printTable() {
+		int size = getSize();
+		for (int i = 0; i < size; i++) {
+			if (!table[i]) continue;
+			std::cout << "index " << i << ": ";
+			HashNode* myNode = table[i];
+			while (myNode) {
+				std::cout << "[Account: " << myNode->fullName << 
+					", address: " << myNode->address <<
+					", city: " << myNode->city <<
+					", state: " << myNode->state <<
+					", zip: " << myNode->zip <<
+					"] ";
+				myNode = myNode->next;
+			}
+			std::cout << "\n";
+		}
+	}
