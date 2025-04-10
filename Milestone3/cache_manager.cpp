@@ -15,6 +15,7 @@
  *              - getMaxCacheSize()
  *              - contains()
  *              - printCache()
+ * 04/09/25 - Edited by Zoë Elias: changed clear() to iterate with while loop instead of do-while loop.
  */
 
 #include "cache_manager.h"
@@ -84,16 +85,26 @@ bool CacheManager::remove(int curKey) {
 
 // remove all entries from the CacheManager
 void CacheManager::clear() {
-	DllNode* currentNode = doublyLinkedList->head;
-	DllNode* nextNode = currentNode->next;
-	do {
-		remove(currentNode->key);
-		currentNode = nextNode;
-		nextNode = currentNode->next;
-	} while (nextNode);
-	if (currentNode) {
-		remove(currentNode->key);
-	}
+    /// Zoë Elias: Changed this method from a do-while loop, which cause a null pointer ///
+    /// dereference after removing a node, creating potential segmentation faults. ///
+	//DllNode* currentNode = doublyLinkedList->head;
+	//DllNode* nextNode = currentNode->next;
+	//do {
+		//remove(currentNode->key);
+		//currentNode = nextNode;
+		//nextNode = currentNode->next;
+	//} while (nextNode);
+	//if (currentNode) {
+		//remove(currentNode->key);
+	//}
+    /// Changed to a while loop ensuring that each node is properly processed and removed ///
+    /// until the end of the list is reached. ///
+    DllNode* currentNode = doublyLinkedList->head;
+    while (currentNode) {
+        DllNode* nextNode = currentNode->next;
+        remove(currentNode->key);
+        currentNode = nextNode;
+    }
 }
 
 //retrieve item from the CacheManager, and moves node to the head of doublyLinkedList
