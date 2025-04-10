@@ -3,6 +3,7 @@
 * hash_table.cpp : This is the cpp file for HashTable which defines hash_table.h functions
 *
 * 3/16/25 created by Kirill
+* 04/09/25 - Eddited by Zoë Elias: changed line 177 in contains() to compare pointer with null pointer.
 */
 
 
@@ -172,7 +173,11 @@
 	* Method to check if a node with key exists in the table
 	*/
 	bool HashTable::contains(int curKey) {
-		return getItem(curKey) > 0;
+		//return getItem(curKey) > 0; /// Zoë Elias: Changed this line from comparing the pointer with an integer ///
+		return getItem(curKey) != nullptr; /// to comparing the pointer with null pointer. ///
+		/// This change ensures correctly checking if the item exists by verifying that the return value of ///
+		/// getItem(curKey) is not a null pointer, instead of comparing it to 0, which can lead to incorrect behavior, ///
+		/// especially when working with nullptr in C++. ///
 	}
 
 	/**
